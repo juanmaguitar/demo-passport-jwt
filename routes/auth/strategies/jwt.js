@@ -2,7 +2,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const User = require('../../../models/User');
-const SECRET = process.env.SECRET
+const SECRET = process.env.SECRET || 'supersecretdonottelltoanyone'
 
 const jwtOptions = {
   secretOrKey: SECRET,
@@ -10,7 +10,8 @@ const jwtOptions = {
 }
 
 const strategy = new JwtStrategy( jwtOptions, (jwt_payload, done) => {
-  User.findOne( { id: jwt_payload.id } )
+
+  User.findById( jwt_payload.id )
     .then(user => {
       if (user) done(null, user);
       else done(null, false);
