@@ -2,15 +2,17 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+require('dotenv').config()
+
 mongoose.Promise = global.Promise
 
-const configDb = require('./config/db')
 const routesAuth = require('./routes/auth')
 
 const PORT = process.env.PORT || 3000
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/demo-passport-jwt'
 const app = express()
 
-mongoose.connect(configDb.database);
+mongoose.connect(DB_URI);
 
 app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );

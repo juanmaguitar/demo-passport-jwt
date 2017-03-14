@@ -1,35 +1,29 @@
-const express = require('express')
-const jwt = require('jwt-simple');
+const express = require('express');
+const router = express.Router();
+
 const passport = require('passport')
-const useJwtStrategy = require('./config/passport')
+const LocalStrategy = require('passport-local').Strategy;
+
+const register = require('./handlers/register')
+const authenticate = require('./handlers/authenticate')
+
+const jwtStrategy = require('./strategies/jwt')
 
 const User = require('../../models/User');
-const config = require('../../config/db')
-
-const router = express.Router()
 
 router.use( passport.initialize() );
 
-router.post('/signup', (req, res, next) => {
-  const { username, password } = req.body
-  const account = new User({ username })
+passport.use( new LocalStrategy( User.authenticate() ) );
+passport.use( jwtStrategy );
 
-  User.register( account, password, err => {
-    if (err) {
-      return res.json({success: false, msg: 'Username already exists.'});
-    }
-    res.json({success: true, msg: 'Successful created new user.'});
-  });
-})
+router.post('/register', register );
+router.post('/authenticate', passport.authenticate('local', { session: false }), authenticate);
 
-router.post('/authenticate', passport.authenticate('local'), function(req, res) {
+router.get("/secret", passport.authenticate('jwt', { session: false }), (req, res) =>
+  res.json({ message: "Success! You can not see this without a token" })
+);
 
-  const SECRET = config.secret;
-  const { _id: id } = req.user;
 
-  var token = jwt.encode( { id }, SECRET );
-  res.json({success: true, token: 'JWT ' + token});
+//router.get('/logout', logout);
 
-});
-
-return router
+module.exports = router;
