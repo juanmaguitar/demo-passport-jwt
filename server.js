@@ -1,32 +1,22 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const passport = require('passport')
-const jwt = require('jwt-simple');
 
 mongoose.Promise = global.Promise
 
-const config = require('./config')
-const apiRoutes = require('./routes')
+const configDb = require('./config/db')
+const routesAuth = require('./routes/auth')
 
-const PORT = process.env.PORT || PORT
+const PORT = process.env.PORT || 3000
 const app = express()
 
-mongoose.connect(config.database);
-
-require('./config/passport')(passport);
+mongoose.connect(configDb.database);
 
 app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
 
-app.use( passport.initialize() );
-
-app.get('/', (req, res) => {
-  res.send(`Hello! The API is at http://localhost:${PORT}/api`);
-});
-
-// connect the api routes under /api/*
-app.use('/api', apiRoutes);
+app.get('/', (req, res) => res.send(`Hello! The API is at http://localhost:${PORT}/api`) );
+app.use('/api', routesAuth );
 
 // Start the server
 app.listen(PORT);
