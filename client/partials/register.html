@@ -1,10 +1,10 @@
-<div class="container" id="login">
+<div class="container" id="register">
   <div class="row">
 
     <div class="main col-md-4 col-md-offset-4">
 
-      <h3>Log In</h3>
-      <form role="form" ng-submit="login()">
+      <h3>Register a New User</h3>
+      <form role="form" ng-submit="register()">
         <div class="form-group">
           <label>Username</label>
           <input type="text" class="form-control" ng-model="username">
@@ -14,12 +14,11 @@
           <input type="password" class="form-control" ng-model="password">
         </div>
         <button type="submit" class="btn btn btn-primary">
-          Log In
+          Sign Up
         </button>
       </form>
 
-      <p class="extra-link">¿Don't have an account? <a href="#!/register">Sign Up here</a></p>
-
+      <p class="extra-link">Already have an account? <a href="#!/login">Log Up here</a></p>
     </div>
 
   </div>

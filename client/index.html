@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <div class="container">
     <div class="header clearfix">
-      <nav>
+      <nav ng-controller="NavbarCtrl">
         <ul class="nav nav-pills pull-right">
           <li><a href="#!/login">Login</a></li>
-          <li><a href="#">Register</a></li>
-          <li><a href="#">Private</a></li>
+          <li><a href="#!/register">Register</a></li>
+          <li><a ng-click="logout()" href="#">Logout</a></li>
+          <li><a href="#!/private">Private</a></li>
         </ul>
       </nav>
       <h3 class="text-muted"><a href="#!/">Project name</a></h3>
@@ -26,8 +28,9 @@
 
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/factory.js"></script>
-  <script src="js/controllers/LoginCtrl.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
 </body>
 </html>
