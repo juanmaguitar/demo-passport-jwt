@@ -23,7 +23,8 @@ angular.module('myApp')
       $location.path('/private');
     }
   })
-  .controller('PrivateCtrl', function(auth) {
+  .controller('PrivateCtrl', function($scope, auth, DataFactory) {
     console.log(auth)
-    console.log('private messages...')
+    DataFactory.getPrivateData()
+      .then( ({ message }) => $scope.message = message )
   })

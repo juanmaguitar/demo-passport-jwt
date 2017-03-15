@@ -1,4 +1,15 @@
 angular.module('myApp')
+  .factory('DataFactory', function ($http){
+
+    function getPrivateData() {
+      const url = '/private'
+      return $http.get(url)
+        .then( response => response.data )
+    }
+
+    return { getPrivateData }
+
+  })
   .factory('AuthFactory', function($http, $q, $rootScope, $location, StorageFactory, jwtHelper) {
 
     function login(credentials) {
@@ -12,7 +23,7 @@ angular.module('myApp')
     }
 
     function register(credentials) {
-      const url = '/api/logregisterin'
+      const url = '/api/register'
       return $http.post(url, credentials)
         .then( $location.path("/login") )
     }
@@ -24,8 +35,9 @@ angular.module('myApp')
 
     function isLoggedIn() {
       try {
-        var token = StorageFactory.readToken()
-        var tokenPayload = jwtHelper.decodeToken( token )
+        const token = StorageFactory.readToken()
+        if (!token) return false
+        const tokenPayload = jwtHelper.decodeToken( token )
         return !( jwtHelper.isTokenExpired( token ) )
       } catch( e ) {
         return $q.reject('Not Authenticated')

@@ -1,4 +1,7 @@
 angular.module('myApp',['ngRoute','angular-jwt'])
+  .config( function ($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor')
+  })
   .config( function($routeProvider) {
     $routeProvider
       .when('/',{
