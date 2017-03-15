@@ -1,36 +1,44 @@
 angular.module('myApp')
-  .factory('AuthFactory', function($http, $q, $location, StorageFactory, jwtHelper) {
+  .factory('AuthFactory', function($http, $q, $rootScope, $location, StorageFactory, jwtHelper) {
 
     function login(credentials) {
       const url = '/api/login'
-      $http.post(url, credentials)
+      return $http.post(url, credentials)
         .then( response => response.data.token )
-        .then( token => StorageFactory.saveToken(token) )
+        .then( token => {
+          StorageFactory.saveToken(token)
+          return token
+        })
     }
 
     function register(credentials) {
       const url = '/api/logregisterin'
-      $http.post(url, credentials)
+      return $http.post(url, credentials)
         .then( $location.path("/login") )
     }
 
     function logout() {
-      console.log('removing token...')
-      StorageFactory.removeToken();
+      delete $rootScope.loggedUser
+      StorageFactory.removeToken()
     }
 
     function isLoggedIn() {
       try {
-        var token = StorageFactory.readToken();
-        var tokenPayload = jwtHelper.decodeToken( token );
+        var token = StorageFactory.readToken()
+        var tokenPayload = jwtHelper.decodeToken( token )
         return !( jwtHelper.isTokenExpired( token ) )
       } catch( e ) {
-        return $q.reject('Not Authenticated');
+        return $q.reject('Not Authenticated')
       }
     }
 
+    function setCredentials( token ) {
+      var tokenPayload = jwtHelper.decodeToken( token )
+      $rootScope.loggedUser = tokenPayload;
+    }
 
-    return { login, register, logout, isLoggedIn }
+
+    return { login, register, logout, isLoggedIn, setCredentials }
 
   })
   .factory('StorageFactory', function ($window){

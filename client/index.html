@@ -11,10 +11,13 @@
     <div class="header clearfix">
       <nav ng-controller="NavbarCtrl">
         <ul class="nav nav-pills pull-right">
-          <li><a href="#!/login">Login</a></li>
-          <li><a href="#!/register">Register</a></li>
-          <li><a ng-click="logout()" href="#">Logout</a></li>
-          <li><a href="#!/private">Private</a></li>
+          <li ng-hide="loggedUser"><a href="#!/login">Login</a></li>
+          <li ng-hide="loggedUser"><a href="#!/register">Register</a></li>
+
+          <li ng-show="loggedUser"><a href="#!/private">Private</a></li>
+          <li ng-show="loggedUser">
+            <a class="btn btn-primary" ng-click="logout()" href="#">Logout</a>
+          </li>
         </ul>
       </nav>
       <h3 class="text-muted"><a href="#!/">Project name</a></h3>

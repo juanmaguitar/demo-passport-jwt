@@ -4,6 +4,7 @@ angular.module('myApp')
       const username = $scope.username
       const password = $scope.password
       AuthFactory.login({ username, password })
+        .then( AuthFactory.setCredentials )
         .then( () => $location.path('/private') )
     }
 
@@ -16,6 +17,7 @@ angular.module('myApp')
     }
   })
   .controller('NavbarCtrl', function($scope, $location, AuthFactory) {
+
     $scope.logout = function() {
       AuthFactory.logout()
       $location.path('/private');
