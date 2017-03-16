@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const passport = require('../_passport')
+const passport = require(__base + 'config/passport')
 
 const register = require('./handlers/register')
 const login = require('./handlers/login')
 
-router.use( passport.initialize() );
+router.use( passport.initialize() )
 
-router.post('/register', register );
-router.post('/login', passport.authenticate('local', { session: false }), login);
+router.post('/register', register )
+router.post('/login', passport.authenticate('local', { session: false }), login)
 
-module.exports = router;
+module.exports = router

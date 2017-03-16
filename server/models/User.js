@@ -4,6 +4,12 @@ const passportLocalMongoose = require('passport-local-mongoose')
 
 const User = new Schema({});
 
-User.plugin( passportLocalMongoose );
+const options = {
+  usernameField: 'email',
+  attemptsField: 3,
+  usernameLowerCase: true
+}
+
+User.plugin( passportLocalMongoose, options );
 
 module.exports = mongoose.model('User', User);
