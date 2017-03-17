@@ -2,7 +2,7 @@ angular.module('myApp')
   .factory('AuthFactory', function($http, $q, $rootScope, $location, StorageFactory, jwtHelper) {
 
     function login(credentials) {
-      const url = '/api/login'
+      const url = '/auth/login'
       return $http.post(url, credentials)
         .then( response => response.data.token )
         .then( token => {
@@ -12,7 +12,7 @@ angular.module('myApp')
     }
 
     function register(credentials) {
-      const url = '/api/register'
+      const url = '/auth/register'
       return $http.post(url, credentials)
         .then( $location.path("/login") )
     }

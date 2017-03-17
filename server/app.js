@@ -12,7 +12,7 @@ app.use( express.static( path.join(__dirname, '../client') ) )
 app.use( bodyParser.urlencoded({ extended: false }) )
 app.use( bodyParser.json() )
 
-app.use('/api', routesAuth )
+app.use('/auth', routesAuth )
 app.use('/private', routesPrivate )
 
 module.exports = app

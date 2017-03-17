@@ -1,13 +1,15 @@
 var jwt = require('jsonwebtoken')
 
-function login(req, res) {
+function googleCallback(req, res) {
 
     const SECRET = process.env.SECRET
     const id = req.user.id || req.user._id
 
     const token = jwt.sign( { id }, SECRET )
-    res.json({success: true, token: 'JWT ' + token})
+    const Location = `/#!/login?token=${token}`
+    res.writeHead(302, { Location })
+    res.end();
 
 }
 
-module.exports = login
+module.exports = googleCallback
